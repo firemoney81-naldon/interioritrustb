@@ -1,23 +1,570 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
+
+    <!-- JSON-LD 구조화 데이터 (SEO 스니펫 최적화) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "경주 인테리어 및 리모델링 서비스",
+      "provider": {
+        "@type": "Organization",
+        "name": "경주인테리어 전문",
+        "url": "https://yourdomain.com",
+        "logo": "https://yourdomain.com/logo.png"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "경주시",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "35.8561",
+          "longitude": "129.2246"
+        }
+      },
+      "description": "경주 지역 맞춤형 인테리어 서비스. 아파트, 주택, 상업 공간 등 다양한 환경에 최적화된 시공과 합리적인 비용 안내.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "경주 인테리어 서비스 가격대",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "부분 인테리어 (도배/장판)"
+            },
+            "priceSpecification": {
+                "@type": "PriceSpecification",
+                "price": "500000",
+                "priceCurrency": "KRW",
+                "description": "최소 견적 기준"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "아파트 전체 리모델링 (20평대)"
+            },
+            "priceSpecification": {
+                "@type": "PriceSpecification",
+                "price": "15000000",
+                "priceCurrency": "KRW",
+                "description": "평균 예상 금액"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "주택 인테리어 (단독주택)"
+            },
+            "priceSpecification": {
+                "@type": "PriceSpecification",
+                "price": "30000000",
+                "priceCurrency": "KRW",
+                "description": "평균 예상 금액"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            background-color: #fcfcfc; /* 부드러운 배경색 */
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background-color: #3a5a40; /* 짙은 녹색 계열, 자연친화적 색감 */
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        header p {
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* 네비게이션 스타일 */
+        nav {
+            background-color: #4CAF50; /* 헤더보다 살짝 밝은 녹색 */
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav li {
+            position: relative;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #6a8e6a;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* 섹션 스타일 */
+        section {
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #3a5a40;
+            border-bottom: 3px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        h3 {
+            font-size: 1.5rem;
+            color: #555;
+            margin-top: 2rem;
+        }
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 20px;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f5f0;
+            font-weight: 600;
+            color: #444;
+            text-align: center;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* CTA 버튼 스타일 */
+        .cta-button {
+            display: inline-block;
+            background-color: #d88f4c; /* 부드러운 오렌지 계열 */
+            color: white;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 1rem 0;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .cta-button:hover {
+            background-color: #c07d40;
+        }
+
+        /* 키워드 태그 스타일 */
+        .keyword-tags {
+            margin: 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .keyword-tags a {
+            background-color: #e8f5e9; /* 연한 녹색 */
+            color: #3a5a40;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .keyword-tags a:hover {
+            background-color: #c8e6c9;
+        }
+
+        /* FAQ 아코디언 스타일 */
+        .faq dt {
+            font-weight: 700;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f7f7f7;
+            border-left: 5px solid #d88f4c;
+            cursor: pointer;
+            color: #444;
+            transition: background-color 0.3s ease;
+        }
+        .faq dt:hover {
+            background-color: #eee;
+        }
+        .faq dd {
+            margin-left: 0;
+            padding: 1rem 1.5rem;
+            background-color: #ffffff;
+            border: 1px solid #eee;
+            border-top: none;
+            display: none;
+        }
+        .faq dt.active + dd {
+            display: block;
+        }
+
+        /* 폼 스타일 */
+        .form-container {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="tel"],
+        .form-container select,
+        .form-container textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        .form-container input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        .form-container .submit-button {
+            background-color: #3a5a40;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .form-container .submit-button:hover {
+            background-color: #2e4732;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #777;
+            background-color: #f0f0f0;
+            margin-top: 2rem;
+        }
+
+        /* 텍스트 강조 */
+        .highlight {
+            font-weight: 700;
+            color: #d88f4c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>경주 인테리어, 비용 견적부터 시공 후기까지 A to Z</h1>
+        <p>고객의 만족을 최우선으로, 경주 지역 전문가가 제공하는 맞춤형 인테리어 솔루션.</p>
+    </header>
+
     <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
+        <ul>
+            <li><a href="#about">서비스 소개</a></li>
+            <li><a href="#cost">비용 안내 및 견적</a></li>
+            <li><a href="#process">시공 과정</a></li>
+            <li><a href="#portfolio">포트폴리오</a></li>
+            <li><a href="#faq">자주 묻는 질문</a></li>
+            <li><a href="#contact">문의하기</a></li>
+        </ul>
     </nav>
+
     <main>
-      <h1>Home page</h1>
+        <!-- 서비스 소개 및 지역 키워드 섹션 -->
+        <section id="about">
+            <h2>경주 인테리어, 왜 전문 업체와 함께 해야 할까요?</h2>
+            <p>경주 지역은 유네스코 세계문화유산 도시라는 특수성을 지니고 있습니다. 단순히 예쁜 디자인을 넘어, 지역의 특성과 주택 환경을 고려한 인테리어가 필수입니다. <span class="highlight">황성동 아파트, 용강동 신축 주택, 동천동 빌라</span> 등 경주 전역의 다양한 주거 형태에 대한 깊은 이해가 필요합니다. 저희는 경주 지역에서 수많은 시공 경험을 쌓은 전문 인테리어 업체로, 고객님의 라이프스타일을 반영한 최적의 공간을 만들어 드립니다.</p>
+
+            <h3>경주 지역 맞춤형 인테리어 서비스</h3>
+            <p>경주 지역은 신축 아파트와 더불어 노후된 주택이나 빌라 리모델링 수요가 높습니다. 특히 <span class="highlight">성건동, 충효동, 불국동</span> 등 구도심 지역의 주택들은 단열, 방수, 설비 보강이 핵심입니다. 저희는 최신 트렌드와 기술을 결합하여 2026년 기준, 에너지 효율을 높이는 친환경 인테리어를 제안합니다. <span class="highlight">보문단지, 감포읍, 양북면</span> 등 외곽 지역의 펜션이나 상업 공간 인테리어도 전문적으로 진행하고 있습니다.</p>
+
+            <div class="keyword-tags" aria-label="경주 인테리어 관련 키워드">
+                <a href="#cost">경주 인테리어 비용</a>
+                <a href="#cost">경주 아파트 리모델링 가격</a>
+                <a href="#cost">경주 인테리어 견적 비교</a>
+                <a href="#process">인테리어 시공 순서</a>
+                <a href="#portfolio">경주 인테리어 포트폴리오</a>
+                <a href="#faq">인테리어 업체 선정 기준</a>
+                <a href="#about">경주 주택 리모델링</a>
+                <a href="#contact">무료 견적 상담</a>
+                <a href="#cost">경주 인테리어 평당 가격</a>
+                <a href="#cost">경주 인테리어 싼곳</a>
+            </div>
+        </section>
+
+        <!-- 비용 및 견적 섹션 -->
+        <section id="cost">
+            <h2>경주 인테리어 비용, 합리적인 견적 산출 방법</h2>
+            <p>인테리어 비용은 <span class="highlight">평균, 예상, 금액, 가격, 견적</span> 등 다양한 용어로 검색되지만, 시공 범위와 자재에 따라 천차만별입니다. 경주 인테리어 시장의 2026년 최신 동향을 반영하여 투명한 가격 산출 기준을 제시합니다. 막연한 <span class="highlight">최저가 견적</span>보다는 <span class="highlight">합리적인 비용</span>으로 만족스러운 결과를 얻는 것이 중요합니다. 저희는 고객의 예산에 맞춰 <span class="highlight">내돈내산</span> 후기에도 만족할 수 있는 가성비 좋은 시공을 제안합니다.</p>
+
+            <h3>2026년 경주 인테리어 평당 평균 가격 (예상)</h3>
+            <p>아래 표는 경주 지역 20평대, 30평대 아파트 인테리어 시공 시 예상되는 평균 비용을 나타냅니다. 이는 자재 등급과 시공 범위(전체 또는 부분)에 따라 크게 달라질 수 있습니다. <span class="highlight">정확한 견적</span>을 위해서는 전문가와의 1:1 상담이 필수입니다.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>평균 평당 가격 (원)</th>
+                        <th>20평대 전체 리모델링 예상 금액 (원)</th>
+                        <th>30평대 전체 리모델링 예상 금액 (원)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>부분 시공 (도배, 마루, 주방 일부)</td>
+                        <td>40만원 ~ 60만원</td>
+                        <td>800만원 ~ 1,200만원</td>
+                        <td>1,200만원 ~ 1,800만원</td>
+                    </tr>
+                    <tr>
+                        <td>일반 시공 (전체 리모델링)</td>
+                        <td>100만원 ~ 130만원</td>
+                        <td>2,000만원 ~ 2,600만원</td>
+                        <td>3,000만원 ~ 3,900만원</td>
+                    </tr>
+                    <tr>
+                        <td>고급 시공 (수입 자재, 맞춤 가구)</td>
+                        <td>150만원 ~ 200만원 이상</td>
+                        <td>3,000만원 ~ 4,000만원 이상</td>
+                        <td>4,500만원 ~ 6,000만원 이상</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>※ 주의: 위 금액은 경주 지역 인테리어 <span class="highlight">평균 비용</span>을 기준으로 한 <span class="highlight">예상 견적</span>입니다. 현장 방문 및 상세 상담 후 최종 <span class="highlight">가격</span>이 결정됩니다. <span class="highlight">경주 인테리어 저렴한곳</span>을 찾더라도 무조건 싼 <span class="highlight">비용</span>만을 따지기보다, 자재의 등급과 A/S 보장 여부를 확인하여 <span class="highlight">장단점</span>을 비교해야 합니다.</p>
+
+            <h3>비용을 결정하는 주요 요인 (경주 지역 특성 반영)</h3>
+            <ul>
+                <li><strong>주거 형태 및 건축 연도:</strong> <span class="highlight">외동읍, 안강읍, 건천읍</span> 등 외곽 지역의 노후 주택은 철거 및 설비 공사에 추가 비용이 발생합니다. <span class="highlight">현곡면, 강동면</span>의 신축 아파트는 비교적 적은 비용으로도 시공이 가능합니다.</li>
+                <li><strong>자재 등급 및 시공 범위:</strong> 수입 자재나 친환경 인증 자재 사용 시 <span class="highlight">가격</span>이 상승합니다. <span class="highlight">경주 인테리어 견적 비교</span> 시, 동일한 자재 등급을 기준으로 <span class="highlight">차이점</span>을 확인해야 합니다.</li>
+                <li><strong>디자인 난이도:</strong> 맞춤 가구 제작이나 복잡한 조명/설계가 포함될 경우 <span class="highlight">비용</span>이 증가합니다.</li>
+            </ul>
+
+            <a href="#contact" class="cta-button">무료 견적 상담 받기</a>
+        </section>
+
+        <!-- 시공 과정 섹션 -->
+        <section id="process">
+            <h2>경주 인테리어, 성공적인 시공을 위한 5단계 과정</h2>
+            <p>성공적인 인테리어는 체계적인 <span class="highlight">시공 순서</span>에서 시작됩니다. 저희는 경주 인테리어 전문가로서 고객님의 만족도를 높이기 위해 다음과 같은 5단계 과정을 준수합니다.</p>
+
+            <ol>
+                <li><strong>1단계: 초기 상담 및 현장 실측 (경주 전역 방문):</strong> <span class="highlight">황남동, 월성동, 선도동</span> 등 경주 전역을 방문하여 고객님의 요구사항을 듣고 현장 실측을 진행합니다. <span class="highlight">장점, 단점</span>을 명확히 파악하여 맞춤형 디자인을 구상합니다.</li>
+                <li><strong>2단계: 디자인 제안 및 상세 견적서 작성:</strong> 고객님의 라이프스타일과 예산을 고려한 맞춤형 디자인을 제안하고, <span class="highlight">평당 가격</span>을 포함한 상세 <span class="highlight">견적서</span>를 제공합니다.</li>
+                <li><strong>3단계: 시공 계약 및 자재 선정:</strong> 계약을 진행하고, 고객님과 함께 도배지, 바닥재, 타일 등 자재를 선정합니다. <span class="highlight">경주 인테리어 추천</span> 자재를 활용하여 품질을 높입니다.</li>
+                <li><strong>4단계: 전문 시공 및 공정 관리:</strong> <span class="highlight">베테랑 시공팀</span>이 투입되어 공정별로 책임 시공을 진행합니다. 공사 진행 상황을 고객에게 투명하게 공유하여 신뢰를 높입니다.</li>
+                <li><strong>5단계: 시공 완료 및 사후 관리 (A/S):</strong> 시공 완료 후 꼼꼼한 검수를 거쳐 고객님께 인계합니다. <span class="highlight">경주 인테리어</span> 업체로서 책임감 있는 A/S를 제공합니다.</li>
+            </ol>
+        </section>
+
+        <!-- 포트폴리오 및 지역 키워드 심층 분석 섹션 -->
+        <section id="portfolio">
+            <h2>경주 지역별 인테리어 포트폴리오 및 성공 사례</h2>
+            <p>경주 지역의 특색을 살린 다양한 인테리어 사례를 소개합니다. <span class="highlight">노동동, 노서동, 탑동</span> 등 구도심 지역의 한옥 인테리어부터 <span class="highlight">진현동, 사정동, 배반동</span>의 모던 아파트 리모델링까지, 저희만의 노하우가 집약된 결과물을 확인하세요.</p>
+
+            <!-- 텍스트 20,000자 이상 구성을 위한 심층 정보 -->
+            <h3>경주 주거 환경별 인테리어 전략 분석 (2026년 트렌드)</h3>
+            <p>2026년 경주 인테리어 트렌드는 '친환경'과 '효율성'에 중점을 둡니다. 특히 <span class="highlight">외동읍</span>과 <span class="highlight">천북면</span>의 전원주택 인테리어는 단열 시공이 중요하며, <span class="highlight">광명동, 조양동</span> 등 시내 아파트는 공간 효율을 높이는 붙박이 가구 <span class="highlight">추천</span>이 많습니다. 각 지역별 <span class="highlight">인테리어 장단점</span>을 고려한 맞춤형 솔루션을 제공합니다.</p>
+            <p><strong>주택 인테리어 (단독주택)</strong>: 경주 단독주택은 특히 <span class="highlight">단열재</span> 선택이 중요합니다. 2026년 최신 건축법에 따라 <span class="highlight">단열</span> 성능을 강화하고, 누수를 방지하는 방수 공사가 필수입니다. <span class="highlight">산내면</span>이나 <span class="highlight">서면</span> 지역은 난방 효율을 높이는 보일러 교체나 창호 교체 공사를 함께 진행하는 경우가 많습니다. <span class="highlight">비용</span>은 아파트 리모델링보다 다소 높게 책정될 수 있으나, 주택의 가치를 높이는 투자가 됩니다. <span class="highlight">경주 주택 인테리어 잘하는곳</span>을 찾을 때, 주택 시공 경험이 풍부한 업체를 선정하는 것이 중요합니다.</p>
+            <p><strong>아파트 인테리어 (신축/구축 아파트 비교)</strong>: <span class="highlight">황성동</span>의 오래된 아파트나 <span class="highlight">보덕동</span>의 구축 아파트는 전체적인 구조 변경이나 설비 교체가 필요합니다. 반면 <span class="highlight">율동, 시래동, 구정동, 마동, 하동</span> 등 신축 아파트 인테리어는 마감재 교체나 조명, 가구 배치에 집중하여 <span class="highlight">비용</span> 효율을 높일 수 있습니다. <span class="highlight">경주 인테리어 업체 순위</span>를 비교할 때는 신축과 구축 모두 경험이 있는지를 확인해야 합니다.</p>
+
+            <h3>인테리어 업체 선정 시 유의사항: '내돈내산' 후기가 중요한 이유</h3>
+            <p>인테리어 업체 선정 시, <span class="highlight">경주 인테리어 내돈내산 후기</span>를 꼼꼼히 살펴보는 것이 좋습니다. 단순히 <span class="highlight">싼곳</span>이나 <span class="highlight">저렴한곳</span>을 찾기보다, 시공 품질과 사후 관리에 대한 평판을 확인해야 합니다. <span class="highlight">경주 인테리어 추천</span>을 받을 때, 다음 사항을 체크리스트로 활용하세요.</p>
+            <ul>
+                <li><strong>계약서 명시:</strong> 시공 범위, 자재 등급, 기간, A/S 기간, 추가 <span class="highlight">비용</span> 발생 여부 등 모든 사항이 명확하게 명시되어 있는지 확인.</li>
+                <li><strong>사업자 등록 여부:</strong> 정식 등록된 업체인지 확인하여 <span class="highlight">가입</span> 여부를 통해 신뢰성을 확보.</li>
+                <li><strong>포트폴리오:</strong> <span class="highlight">경주</span> 지역에서 유사한 규모의 시공 경험이 있는지 확인하여 전문성을 판단.</li>
+            </ul>
+        </section>
+
+        <!-- 자주 묻는 질문 (FAQ) 섹션 -->
+        <section id="faq" class="faq">
+            <h2>자주 묻는 질문 (FAQ)</h2>
+            <dl>
+                <dt tabindex="0" aria-expanded="false">Q1. 경주 인테리어 견적은 어떻게 산출되나요? <span class="highlight">평균 비용</span>이 궁금합니다.</dt>
+                <dd>A. 경주 인테리어 <span class="highlight">견적</span>은 현장 실측을 통해 시공 면적, 자재 종류, 시공 난이도, 그리고 고객님의 요구사항을 종합적으로 고려하여 산출됩니다. <span class="highlight">평당 가격</span>은 자재 등급에 따라 크게 달라지며, <span class="highlight">평균</span>적으로 20평대 아파트 전체 리모델링 시 2천만원 내외의 <span class="highlight">비용</span>이 발생합니다. 정확한 <span class="highlight">예상 금액</span>은 현장 방문 상담 후 결정됩니다.</dd>
+
+                <dt tabindex="0" aria-expanded="false">Q2. <span class="highlight">경주 인테리어 업체 순위</span>를 비교할 때 어떤 <span class="highlight">차이점</span>을 봐야 하나요?</dt>
+                <dd>A. <span class="highlight">경주 인테리어 업체 순위 비교</span> 시, 단순히 <span class="highlight">가격</span>이 <span class="highlight">저렴한곳</span>이나 <span class="highlight">싼곳</span>을 찾기보다, <span class="highlight">A/S 보장 기간</span>, <span class="highlight">시공팀의 전문성</span>, 그리고 <span class="highlight">자재 등급</span>을 비교해야 합니다. <span class="highlight">경주 인테리어 추천</span>을 받은 업체라도 계약 전 <span class="highlight">장단점</span>을 명확히 파악하는 것이 중요합니다. 저희는 투명한 계약서 작성과 사후 관리 시스템으로 고객 만족도를 높이고 있습니다.</dd>
+
+                <dt tabindex="0" aria-expanded="false">Q3. 인테리어 시공 기간은 얼마나 걸리나요? (2026년 기준)</dt>
+                <dd>A. 시공 기간은 규모에 따라 달라집니다. <span class="highlight">20평대 아파트 전체 리모델링</span>은 평균 3~4주가 소요되며, <span class="highlight">주택 인테리어</span>나 대형 상업 공간은 4주 이상 소요될 수 있습니다. 2026년 인테리어 시장 동향에 따라 전문 시공팀의 스케줄이 유동적이므로, 최소 1~2개월 전에 미리 <span class="highlight">예약</span>하시는 것을 <span class="highlight">추천</span>합니다.</dd>
+
+                <dt tabindex="0" aria-expanded="false">Q4. 인테리어 <span class="highlight">후기</span>를 보고 싶은데 <span class="highlight">내돈내산</span> 후기는 어디서 보나요?</dt>
+                <dd>A. 저희는 고객님의 개인정보 보호를 위해 직접적인 <span class="highlight">후기</span> 링크를 제공하지 않습니다. 다만, 저희 웹사이트 내 포트폴리오 섹션에서 시공 전후 사진과 상세 설명을 보실 수 있습니다. <span class="highlight">경주 인테리어 잘하는곳</span>을 찾을 때, 시공 현장 방문이나 기존 고객과의 연락을 통해 <span class="highlight">내돈내산</span> 후기를 간접적으로 확인하는 것도 좋은 방법입니다.</dd>
+            </dl>
+        </section>
+
+        <!-- 예약 및 문의 섹션 (체류 시간 증대를 위한 입력 필드 강화) -->
+        <section id="contact">
+            <h2>무료 견적 상담 신청 (체류 시간 증가 유도)</h2>
+            <p>경주 인테리어 <span class="highlight">비용</span>이 궁금하신가요? 지금 바로 전문 상담사에게 문의하세요. 고객님의 주거 환경과 예산에 맞는 맞춤형 <span class="highlight">견적</span>을 제공해 드립니다. <span class="highlight">예상 금액</span>에 대한 부담 없이 문의하실 수 있습니다.</p>
+
+            <div class="form-container">
+                <form action="#" method="post">
+                    <label for="name">성함 (필수)</label>
+                    <input type="text" id="name" name="name" required placeholder="예: 홍길동">
+
+                    <label for="phone">연락처 (필수)</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="예: 010-1234-5678">
+
+                    <label for="address">경주 시공 희망 지역 (필수)</label>
+                    <select id="address" name="address" required>
+                        <option value="">지역을 선택하세요</option>
+                        <option value="황성동">황성동</option>
+                        <option value="동천동">동천동</option>
+                        <option value="용강동">용강동</option>
+                        <option value="성건동">성건동</option>
+                        <option value="충효동">충효동</option>
+                        <option value="불국동">불국동</option>
+                        <option value="보문동">보문동</option>
+                        <option value="감포읍">감포읍</option>
+                        <option value="외동읍">외동읍</option>
+                        <option value="안강읍">안강읍</option>
+                        <option value="현곡면">현곡면</option>
+                        <option value="강동면">강동면</option>
+                        <option value="천북면">천북면</option>
+                        <option value="건천읍">건천읍</option>
+                        <option value="산내면">산내면</option>
+                        <option value="서면">서면</option>
+                        <option value="황남동">황남동</option>
+                        <option value="월성동">월성동</option>
+                        <option value="기타">기타 지역</option>
+                    </select>
+
+                    <label for="type">시공 유형 (필수)</label>
+                    <select id="type" name="type" required>
+                        <option value="">선택하세요</option>
+                        <option value="아파트 전체 리모델링">아파트 전체 리모델링</option>
+                        <option value="주택 전체 리모델링">주택 전체 리모델링</option>
+                        <option value="부분 인테리어 (도배/장판)">부분 인테리어 (도배/장판)</option>
+                        <option value="상업 공간 인테리어">상업 공간 인테리어</option>
+                        <option value="기타 상담">기타 상담</option>
+                    </select>
+
+                    <label for="size">평형대 (선택)</label>
+                    <input type="text" id="size" name="size" placeholder="예: 32평, 단독주택">
+
+                    <label for="budget">예상 예산 (선택)</label>
+                    <input type="text" id="budget" name="budget" placeholder="예: 2000만원 내외">
+
+                    <label for="message">상세 문의 내용 (필수)</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="원하시는 디자인 컨셉, 시공 희망일, 특별히 고려해야 할 사항 등을 자세히 적어주시면 정확한 상담에 도움이 됩니다."></textarea>
+
+                    <label for="privacy">개인정보 수집 및 이용 동의 (필수)</label>
+                    <input type="checkbox" id="privacy" name="privacy" required>
+                    <span style="font-size: 0.9rem;">개인정보 수집 및 이용에 동의합니다.</span>
+
+                    <button type="submit" class="submit-button">견적 문의 신청</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 신뢰성 있는 정보 제공 섹션 (외부 링크 삽입) -->
+        <section id="external-info">
+            <h2>인테리어 관련 공인된 정보 (외부 사이트 참조)</h2>
+            <p>인테리어 시공에 대한 객관적인 정보를 바탕으로 합리적인 의사결정을 하세요. 아래 링크는 인테리어 <span class="highlight">비용</span>, 건축 자재, 법규 등에 대한 신뢰성 있는 정보를 제공합니다. (2026년 기준)</p>
+            <ul>
+                <li><strong>국토교통부 주택 건설 기준:</strong> <a href="https://www.molit.go.kr" target="_blank">주택 건설 기준 등에 관한 규정 (외부 링크)</a> - 주택 인테리어 시 준수해야 할 법적 기준 확인.</li>
+                <li><strong>KOSIS(통계청) 건설 통계:</strong> <a href="https://kosis.kr/index/index.do" target="_blank">건설 통계 (외부 링크)</a> - 건설 자재 <span class="highlight">가격</span> 변동 추이 및 인건비 동향 파악.</li>
+                <li><strong>한국소비자원 피해 구제 정보:</strong> <a href="https://www.kca.go.kr" target="_blank">인테리어 시공 피해 예방 및 구제 방법 (외부 링크)</a> - <span class="highlight">내돈내산</span> 후기 외에 발생할 수 있는 문제점 대비.</li>
+                <li><strong>나무위키 인테리어 항목:</strong> <a href="https://namu.wiki/w/%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4" target="_blank">인테리어 (나무위키) (외부 링크)</a> - 인테리어 기본 용어 및 개념 이해.</li>
+                <li><strong>한국건설기술연구원:</strong> <a href="https://www.kict.re.kr/" target="_blank">친환경 건축 자재 및 기술 동향 (외부 링크)</a> - 최신 친환경 <span class="highlight">장점</span>을 가진 자재 정보 확인.</li>
+            </ul>
+        </section>
+
+        <!-- 보충 정보 (Naver SEO 롱테일 키워드) -->
+        <section id="longtail-keywords">
+            <h3>함께 많이 찾는 키워드 및 자동완성 키워드 분석</h3>
+            <p>네이버 검색 로직은 사용자들이 <span class="highlight">경주 인테리어</span>와 함께 어떤 키워드를 <span class="highlight">함께 많이 찾는</span>지 분석하여 정보를 제공합니다. 이를 통해 고객의 숨은 니즈를 파악할 수 있습니다. <span class="highlight">경주 인테리어</span> 검색 시 연관 키워드는 주로 <span class="highlight">경주 아파트 리모델링, 경주 인테리어 업체 순위, 경주 인테리어 비용 저렴한곳, 경주 인테리어 잘하는곳 추천</span> 등입니다. 저희는 이러한 검색 의도를 충족시키기 위해 상세한 <span class="highlight">비용</span> 정보를 제공하고 <span class="highlight">경주</span> 지역 전문성을 강조하여 <span class="highlight">내돈내산</span> 고객 만족도를 높이고 있습니다.</p>
+            <p>특히 <span class="highlight">20평대 인테리어 비용</span>, <span class="highlight">30평대 인테리어 견적</span>, <span class="highlight">경주 주택 리모델링 장단점</span> 등 세부적인 키워드는 잠재 고객이 가장 궁금해하는 부분입니다. 저희는 <span class="highlight">비교</span>를 통해 고객님께 가장 적합한 <span class="highlight">추천</span> 솔루션을 제시하며, 불필요한 <span class="highlight">비용</span> 지출을 막아드립니다. <span class="highlight">경주 인테리어</span> 관련 정보가 2026년 최신 기준으로 업데이트되었음을 확인하십시오.</p>
+        </section>
+
     </main>
-  </body>
-</html>
+
+ 
+
+    <!-- 자바스크립트 (FAQ 아코디언 기능) -->
+    <script>
+        document.querySelectorAll('dl.faq dt').forEach((dt) => {
+            dt.addEventListener('click', () => {
+                const isActive = dt.classList.contains('active');
+                document.querySelectorAll('dl.faq dt').forEach(otherDt => {
+                    otherDt.classList.remove('active');
+                    otherDt.setAttribute('aria-expanded', 'false');
+                });
+
+                if (!isActive) {
+                    dt.classList.add('active');
+                    dt.setAttribute('aria-expanded', 'true');
+                }
+            });
+            dt.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    dt.click();
+                }
+            });
+        });
+    </script>
+
+
+  
